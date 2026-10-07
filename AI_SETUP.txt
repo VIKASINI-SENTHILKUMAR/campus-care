@@ -1,0 +1,19 @@
+CampusCare AI Verification Setup
+
+1. Install Node.js from nodejs.org if it is not installed.
+2. Open Command Prompt inside this project folder.
+3. Run:
+   npm install
+4. Copy .env.example and rename the copy to .env
+5. Paste your Gemini API key in .env:
+   GEMINI_API_KEY=your_api_key_here
+6. Run:
+   npm start
+7. Open:
+   http://localhost:3000
+
+Important:
+- Do not open index.html directly for AI verification.
+- Use http://localhost:3000 because AI verification needs the backend server.
+- Student submits complaints normally.
+- Admin opens Complaints and clicks "AI Verify Image".

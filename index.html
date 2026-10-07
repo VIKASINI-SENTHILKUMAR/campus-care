@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Campus Care — Sign In</title>
+  
+
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="container">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <span class="eyebrow">Campus Care</span>
+        <h1>Issue reporting for campus life, fast and simple.</h1>
+        <p>Submit maintenance requests with photos and track progress in real time.</p>
+      </div>
+
+      <div class="card auth-card">
+        <h1>Campus Care</h1>
+
+        <div class="tabs">
+          <button id="tab-login" class="active" type="button">Login</button>
+          <button id="tab-signup" type="button">Sign Up</button>
+        </div>
+
+        <form id="form-login" class="form">
+          <input id="login-username" placeholder="Username (name@campus.edu)" required />
+          <input id="login-password" type="password" placeholder="Password" required />
+
+          <select id="login-role">
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <label style="display:flex;align-items:center;gap:8px;text-align:left;">
+            <input id="remember-me" type="checkbox" style="width:auto;">
+            Remember me
+          </label>
+
+          <button type="submit" class="btn">Login</button>
+        </form>
+
+        <form id="form-signup" class="form hidden">
+          <input id="signup-name" placeholder="Full Name" required />
+          <input id="signup-roll" placeholder="Register Number" required />
+
+          <select id="signup-department" required>
+            <option value="">Select Department</option>
+            <option>IT</option>
+            <option>CSE</option>
+            <option>CSBS</option>
+            <option>AIML</option>
+            <option>Cyber Security</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>Mechanical</option>
+            <option>Civil</option>
+          </select>
+
+          <select id="signup-year" required>
+            <option value="">Select Year</option>
+            <option>1st</option>
+            <option>2nd</option>
+            <option>3rd</option>
+            <option>4th</option>
+          </select>
+
+          <input id="signup-section" placeholder="Section (A/B/C)" required />
+          <input id="signup-username" placeholder="Email (name@campus.edu)" required />
+          <input id="signup-password" type="password" placeholder="Choose Password" required />
+
+          <select id="signup-role">
+            <option value="student">Student</option>
+          </select>
+
+          <button type="submit" class="btn">Create Account</button>
+        </form>
+
+        <div class="meta">
+          <label class="theme-toggle">
+            Theme
+            <input id="theme-toggle" type="checkbox">
+          </label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+
+  <script>
+    const tabLogin = document.getElementById('tab-login');
+    const tabSignup = document.getElementById('tab-signup');
+    const formLogin = document.getElementById('form-login');
+    const formSignup = document.getElementById('form-signup');
+
+    const loginUsername = document.getElementById('login-username');
+    const loginPassword = document.getElementById('login-password');
+    const loginRole = document.getElementById('login-role');
+    const rememberMe = document.getElementById('remember-me');
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabSignup.classList.remove('active');
+      formLogin.classList.remove('hidden');
+      formSignup.classList.add('hidden');
+    });
+
+    tabSignup.addEventListener('click', () => {
+      tabSignup.classList.add('active');
+      tabLogin.classList.remove('active');
+      formSignup.classList.remove('hidden');
+      formLogin.classList.add('hidden');
+    });
+
+    const remembered = window.CampusCare.getRememberedUser
+      ? window.CampusCare.getRememberedUser()
+      : null;
+
+    if (remembered) {
+      loginUsername.value = remembered.username || '';
+      loginPassword.value = remembered.password || '';
+      loginRole.value = remembered.role || 'student';
+      rememberMe.checked = true;
+    }
+
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const username = loginUsername.value.trim();
+      const password = loginPassword.value;
+      const role = loginRole.value;
+      const remember = rememberMe.checked;
+
+      const result = window.CampusCare.login(username, password, role, remember);
+
+      if (!result.ok) {
+        alert(result.msg);
+        return;
+      }
+
+      window.location.href = role === 'admin' ? 'admin.html' : 'student.html';
+    });
+
+    formSignup.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const details = {
+        name: document.getElementById('signup-name').value.trim(),
+        roll: document.getElementById('signup-roll').value.trim(),
+        department: document.getElementById('signup-department').value,
+        year: document.getElementById('signup-year').value,
+        section: document.getElementById('signup-section').value.trim()
+      };
+
+      const username = document.getElementById('signup-username').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const role = document.getElementById('signup-role').value;
+
+      const result = window.CampusCare.createUser(username, password, role, details);
+
+      if (!result.ok) {
+        alert(result.msg);
+        return;
+      }
+
+      alert('Account created successfully');
+      window.location.href = role === 'admin' ? 'admin.html' : 'student.html';
+    });
+
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (themeToggle) {
+      themeToggle.checked = window.CampusCare.getTheme() === 'dark';
+
+      themeToggle.addEventListener('change', (e) => {
+        window.CampusCare.setTheme(e.target.checked ? 'dark' : 'light');
+      });
+    }
+  </script>
+</body>
+</html>

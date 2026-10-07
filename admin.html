@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Campus Care — Admin</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand admin-profile-trigger" title="Open Admin Profile">
+      <div class="side-profile">
+        <label for="admin-profile-photo-input" class="side-profile-photo-wrap">
+          <img
+            id="admin-profile-photo-preview"
+            src="https://via.placeholder.com/150"
+            alt="Admin Profile"
+            class="side-profile-photo">
+          <span class="photo-edit-icon">📷</span>
+        </label>
+
+        <input
+          type="file"
+          id="admin-profile-photo-input"
+          accept="image/*"
+          hidden>
+
+        <div>
+          <h2>CampusCare</h2>
+          <p id="side-admin-name">Admin Panel</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="notification-bell" id="notification-bell">
+      🔔
+      <span class="notif-count" id="notif-count">0</span>
+    </div>
+
+    <div id="notification-panel" class="notification-panel hidden"></div>
+
+    <button class="nav-btn active" data-section="dashboard-section">🏠 Dashboard</button>
+    <button class="nav-btn" data-section="complaints-section">📋 Complaints</button>
+    <button class="nav-btn" data-section="students-section">👨‍🎓 Students</button>
+    <button id="btn-logout" class="nav-btn" type="button">🚪 Logout</button>
+
+  </aside>
+
+  <main class="main-content">
+
+    <section id="dashboard-section" class="page-section active-section">
+      <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <p>Monitor complaints, student reports, and reopened requests.</p>
+      </div>
+
+      <section class="stats-grid dashboard-stats">
+        <button class="stat-card stat-total admin-dash-filter" data-status="all" type="button"><span>Total Reports</span><strong id="admin-total">0</strong><small>Click to view all</small></button>
+        <button class="stat-card stat-open admin-dash-filter" data-status="Open" type="button"><span>Open</span><strong id="admin-open">0</strong><small>Needs review</small></button>
+        <button class="stat-card stat-progress admin-dash-filter" data-status="In Progress" type="button"><span>In Progress</span><strong id="admin-progress">0</strong><small>Work ongoing</small></button>
+        <button class="stat-card stat-resolved admin-dash-filter" data-status="Resolved" type="button"><span>Resolved</span><strong id="admin-resolved">0</strong><small>Completed</small></button>
+      </section>
+
+      <section class="dashboard-report-card admin-report-card">
+        <div>
+          <span class="eyebrow">Campus Issue Analytics Report</span>
+          <h2 id="admin-report-title">No complaints yet</h2>
+          <p id="admin-report-summary">Complaint insights will appear here as students report issues.</p>
+        </div>
+        <button class="btn ghost admin-dash-filter" data-status="all" type="button">View All Complaints</button>
+      </section>
+
+      <section class="analytics-grid analytics-grid-3">
+        <div class="analytics-card colorful-card">
+          <h3>Complaints by Status</h3>
+          <div id="admin-status-chart" class="mini-bars clickable-chart"></div>
+        </div>
+        <div class="analytics-card colorful-card">
+          <h3>Complaints by Category</h3>
+          <div id="admin-category-chart" class="mini-bars clickable-chart"></div>
+        </div>
+        <div class="analytics-card colorful-card">
+          <h3>Top Reported Places</h3>
+          <div id="admin-place-chart" class="mini-bars clickable-chart"></div>
+        </div>
+      </section>
+
+      <section class="analytics-grid analytics-grid-2">
+        <div class="analytics-card colorful-card">
+          <h3>Active Reports</h3>
+          <p class="muted-text">Click any active report to open it in the complaint list.</p>
+          <div id="active-admin-issues" class="recent-list"></div>
+        </div>
+        <div class="analytics-card colorful-card">
+          <h3>Recent Complaints</h3>
+          <div id="admin-recent-complaints" class="recent-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="admin-profile-section" class="page-section">
+      <div class="page-header">
+        <h1>Admin Profile</h1>
+        <p>Manage admin profile details and theme settings.</p>
+      </div>
+
+      <section class="card profile-card">
+        <h3>Admin Profile</h3>
+        <p class="muted-text">Click any detail to edit it directly.</p>
+
+        <div class="profile-grid inline-profile-grid">
+          <div>
+            <span>Name</span>
+            <strong
+              id="admin-name"
+              class="editable-admin-profile"
+              contenteditable="true"
+              data-field="name">Admin</strong>
+          </div>
+
+          <div>
+            <span>Role</span>
+            <strong id="admin-role">Campus Administrator</strong>
+          </div>
+
+          <div>
+            <span>Total Students with Complaints</span>
+            <strong id="student-total">0</strong>
+          </div>
+
+          <div>
+            <span>Blocked Students</span>
+            <strong id="student-blocked">0</strong>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <label class="theme-toggle">
+            Dark Mode
+            <input id="admin-theme-toggle" type="checkbox">
+          </label>
+        </div>
+      </section>
+
+
+    </section>
+
+    <section id="complaints-section" class="page-section">
+      <div class="page-header">
+        <h1>Complaint Management</h1>
+        <p>Search by student, verify photos, add comments, reject, or reopen complaints.</p>
+      </div>
+
+      <section class="card">
+        <h3>Filters</h3>
+
+        <div class="filter-grid">
+          <select id="admin-search" class="filter-select">
+            <option value="">All Students</option>
+          </select>
+
+          <select id="filter-status">
+            <option value="">All Status</option>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Rejected</option>
+          </select>
+
+          <select id="filter-category">
+            <option value="">All Categories</option>
+            <option>Electrical</option>
+            <option>Plumbing</option>
+            <option>Sanitation</option>
+            <option>Security</option>
+            <option>Infrastructure</option>
+            <option>Other</option>
+          </select>
+
+          <select id="filter-place">
+            <option value="">All Places / Locations</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>All Complaints</h3>
+        <div id="admin-issues" class="issues"></div>
+      </section>
+    </section>
+
+    <section id="students-section" class="page-section">
+      <div class="page-header">
+        <h1>Students with Complaints</h1>
+        <p>Only students who submitted at least one complaint are displayed.</p>
+      </div>
+
+      <section class="card">
+        <select id="student-search" class="filter-select">
+            <option value="">All Students</option>
+          </select>
+      </section>
+
+      <section class="card">
+        <h3>Reported Students</h3>
+        <div id="student-list" class="student-list"></div>
+      </section>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <div id="image-modal" class="image-modal hidden">
+    <button id="modal-close" class="modal-close">×</button>
+    <button id="zoom-in" class="modal-zoom">+</button>
+    <button id="zoom-out" class="modal-zoom">−</button>
+    <div id="modal-image-stage" class="modal-image-stage">
+      <img id="modal-image" src="" alt="Preview">
+      <span id="modal-ai-tag" class="ai-detected-tag modal-ai-tag hidden">AI Detected</span>
+      <span id="modal-ai-circle" class="ai-problem-circle modal-ai-circle hidden"></span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="admin.js?v=30"></script>
+</body>
+</html>

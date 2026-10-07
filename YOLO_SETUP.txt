@@ -1,0 +1,28 @@
+CampusCare Final Run Steps
+
+1) Install Node packages:
+   npm install
+
+2) Install Python packages:
+   python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+   python -m pip install ultralytics opencv-python flask flask-cors
+
+3) Edit .env:
+   Replace PASTE_YOUR_GEMINI_API_KEY_HERE with your real Gemini key from Google AI Studio.
+
+4) Open Terminal 1:
+   cd C:\CC\CampusCare_AI
+   python yolo_service.py
+
+5) Open Terminal 2:
+   cd C:\CC\CampusCare_AI
+   node server.js
+
+6) Open Edge/Chrome:
+   http://localhost:3000
+
+Notes:
+- YOLO runs at http://127.0.0.1:5001
+- CampusCare runs at http://localhost:3000
+- Keep both terminals open while testing.
+- YOLO detects common objects, not every defect. Admin should still verify manually.

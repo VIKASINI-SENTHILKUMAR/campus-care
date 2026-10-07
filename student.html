@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Campus Care — Student</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand nav-profile" data-section="profile-section">
+      <div class="side-profile">
+        <label for="profile-photo-input" class="side-profile-photo-wrap">
+          <img
+            id="profile-photo-preview"
+            src="https://via.placeholder.com/150"
+            alt="Profile"
+            class="side-profile-photo">
+          <span class="photo-edit-icon">📷</span>
+        </label>
+
+        <input
+          type="file"
+          id="profile-photo-input"
+          accept="image/*"
+          hidden>
+
+        <div>
+          <h2>CampusCare</h2>
+          <p id="side-student-name">Student Panel</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="nav-btn active" data-section="dashboard-section">🏠 Dashboard</button>
+    <button class="nav-btn" data-section="new-complaint-section">➕ New Complaint</button>
+    <button class="nav-btn" data-section="complaints-section">📋 My Complaints</button>
+    <button id="profile-logout" class="nav-btn" type="button">🚪 Logout</button>
+
+  </aside>
+
+  <main class="main-content">
+
+    <section id="dashboard-section" class="page-section active-section">
+      <div class="page-header">
+        <h1>Student Dashboard</h1>
+        <p>Track your campus complaints and updates.</p>
+      </div>
+
+      <section class="stats-grid dashboard-stats">
+        <button class="stat-card stat-total dash-filter" data-status="all" type="button"><span>Total Reports</span><strong id="stat-total">0</strong><small>Click to view all</small></button>
+        <button class="stat-card stat-open dash-filter" data-status="Open" type="button"><span>Open</span><strong id="stat-new">0</strong><small>Pending review</small></button>
+        <button class="stat-card stat-progress dash-filter" data-status="In Progress" type="button"><span>In Progress</span><strong id="stat-progress">0</strong><small>Work ongoing</small></button>
+        <button class="stat-card stat-resolved dash-filter" data-status="Resolved" type="button"><span>Resolved</span><strong id="stat-completed">0</strong><small>Completed issues</small></button>
+      </section>
+
+      <section class="dashboard-report-card">
+        <div>
+          <span class="eyebrow">CampusCare Report</span>
+          <h2 id="student-report-title">No complaints yet</h2>
+          <p id="student-report-summary">Submit your first complaint to see analytics.</p>
+        </div>
+        <button class="btn ghost dash-filter" data-status="all" type="button">View My Complaints</button>
+      </section>
+
+      <section class="analytics-grid analytics-grid-3">
+        <div class="analytics-card colorful-card">
+          <h3>My Complaints by Status</h3>
+          <div id="student-status-chart" class="mini-bars clickable-chart"></div>
+        </div>
+        <div class="analytics-card colorful-card">
+          <h3>My Complaints by Category</h3>
+          <div id="student-category-chart" class="mini-bars clickable-chart"></div>
+        </div>
+        <div class="analytics-card colorful-card">
+          <h3>Recent Complaints</h3>
+          <div id="student-recent-complaints" class="recent-list"></div>
+        </div>
+      </section>
+
+      <section class="card blocked-card hidden" id="blocked-message">
+        <h3>Account Suspended</h3>
+        <p>Your account is blocked by admin. You cannot submit reports until access is restored.</p>
+        <p id="student-block-reason" class="block-reason-box hidden"></p>
+      </section>
+    </section>
+
+    <section id="profile-section" class="page-section">
+      <div class="page-header">
+        <h1>Student Profile</h1>
+        <p>Click any detail to edit it directly.</p>
+      </div>
+
+      <section class="card profile-card">
+        <div class="profile-photo-large">
+          <label for="profile-photo-input" class="large-profile-photo-wrap">
+            <img
+              id="profile-photo-preview-large"
+              src="https://via.placeholder.com/150"
+              alt="Profile Photo"
+              class="large-profile-photo">
+            <span class="photo-edit-icon large-icon">📷</span>
+          </label>
+        </div>
+
+        <h3>Profile Details</h3>
+
+        <div class="profile-grid inline-profile-grid">
+          <div>
+            <span>Full Name</span>
+            <strong id="profile-name" class="editable-profile" contenteditable="true" data-field="name">-</strong>
+          </div>
+
+          <div>
+            <span>Register Number</span>
+            <strong id="profile-roll" class="editable-profile" contenteditable="true" data-field="roll">-</strong>
+          </div>
+
+          <div>
+            <span>Department</span>
+            <strong id="profile-department" class="editable-profile" contenteditable="true" data-field="department">-</strong>
+          </div>
+
+          <div>
+            <span>Year</span>
+            <strong id="profile-year" class="editable-profile" contenteditable="true" data-field="year">-</strong>
+          </div>
+
+          <div>
+            <span>Section</span>
+            <strong id="profile-section-text" class="editable-profile" contenteditable="true" data-field="section">-</strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong id="profile-email">-</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="new-complaint-section" class="page-section">
+      <div class="page-header">
+        <h1>Report an Issue</h1>
+        <p>Select block/area and submit complaint details.</p>
+      </div>
+
+      <section class="card">
+        <form id="issue-form">
+
+          <label>
+            Category
+            <select id="issue-category" required>
+              <option value="">Select Category</option>
+              <option>Electrical</option>
+              <option>Plumbing</option>
+              <option>Sanitation</option>
+              <option>Security</option>
+              <option>Infrastructure</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <label>
+            Issue Type
+            <select id="issue-title" required>
+              <option value="">Select Issue</option>
+              <option>Fan not working</option>
+              <option>Light not working</option>
+              <option>Switch board issue</option>
+              <option>Water leak</option>
+              <option>Tap not working</option>
+              <option>Restroom issue</option>
+              <option>Dirty classroom</option>
+              <option>Dustbin full</option>
+              <option>Broken bench / desk</option>
+              <option>Door / window damage</option>
+              <option>Security concern</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <input id="issue-title-other" class="hidden" placeholder="Type the issue name here">
+
+          <textarea id="issue-desc" placeholder="Describe the issue clearly" required></textarea>
+
+          <label>
+            Location Type
+            <select id="location-type" required>
+              <option value="">Select Location Type</option>
+              <option value="block">Block</option>
+              <option value="campus">Campus Area</option>
+            </select>
+          </label>
+
+          <div id="block-location-row" class="field-row hidden">
+            <label>
+              Block
+              <select id="issue-block">
+                <option value="">Select Block</option>
+                <option>Block A</option>
+                <option>Block B</option>
+                <option>Block C</option>
+                <option>Block D</option>
+                <option>Block E</option>
+                <option>Block F</option>
+              </select>
+            </label>
+
+            <label>
+              Classroom / Restroom
+              <select id="issue-room" disabled>
+                <option value="">Select block first</option>
+              </select>
+            </label>
+          </div>
+
+          <label id="campus-location-row" class="hidden">
+            Campus Area
+            <select id="campus-location">
+              <option value="">Select Campus Area</option>
+              <option>Cafeteria</option>
+              <option>Canteen</option>
+              <option>OAT</option>
+              <option>Library</option>
+              <option>Computer Lab</option>
+              <option>Hostel Block</option>
+              <option>Auditorium</option>
+              <option>Parking Area</option>
+              <option>Sports Ground</option>
+            </select>
+          </label>
+
+          <input id="issue-location" type="hidden">
+
+          <label>
+            Photos (up to 5)
+            <input id="issue-image" type="file" accept="image/*" multiple>
+          </label>
+
+          <div id="photo-preview" class="photo-preview"></div>
+
+          <div class="ai-student-box">
+            <strong>🤖 AI Photo Check Required</strong>
+            <p class="muted-text">All uploaded photos must be checked by AI before submitting. If any photo is unrelated, remove or replace it.</p>
+            <button id="student-ai-check" class="btn ghost" type="button">🤖 AI Check Photos</button>
+            <div id="student-ai-status" class="ai-student-results"></div>
+          </div>
+
+          <label class="check-row">
+            <input id="photo-verify-reporter" type="checkbox">
+            I verify these photos are related to this issue
+          </label>
+
+          <button id="submit-issue-btn" class="btn" type="submit">Submit Issue</button>
+        </form>
+      </section>
+    </section>
+
+    <section id="complaints-section" class="page-section">
+      <div class="page-header">
+        <h1>My Complaints</h1>
+        <p>Edit your open complaints, view admin comments, and reopen resolved issues.</p>
+      </div>
+
+      <section class="card">
+        <h3>Your Reports</h3>
+        <div id="issues-list" class="issues"></div>
+      </section>
+    </section>
+
+  </main>
+
+  <div id="image-modal" class="image-modal hidden">
+    <button id="modal-close" class="modal-close">×</button>
+    <button id="zoom-in" class="modal-zoom">+</button>
+    <button id="zoom-out" class="modal-zoom">−</button>
+    <img id="modal-image" src="" alt="Preview">
+  </div>
+
+  <input
+    id="edit-issue-photo-input"
+    type="file"
+    accept="image/*"
+    multiple
+    hidden>
+
+  <script src="app.js"></script>
+  <script src="student.js?v=40"></script>
+</body>
+</html>
